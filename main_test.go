@@ -14,6 +14,12 @@ func TestGenerateRandomElements(t *testing.T) {
 	if len(size10) != 10 {
 		t.Errorf("Expected length of 10, received: %d", len(size10))
 	}
+
+	for _, v := range size10 {
+		if v < 0 || v >= 100 {
+			t.Errorf("Value %d out of range [0, 100)", v)
+		}
+	}
 }
 
 func TestMaximum(t *testing.T) {
@@ -31,6 +37,10 @@ func TestMaximum(t *testing.T) {
 
 	if max := maximum([]int{7, 7, 7, 7}); max != 7 {
 		t.Errorf("Expected 7, received %d", max)
+	}
+
+	if max := maximum([]int{-1, -4, -3}); max != -1 {
+		t.Errorf("Expected -1, received %d", max)
 	}
 }
 func TestMaxChunks(t *testing.T) {
