@@ -50,7 +50,6 @@ func maxChunks(data []int) int {
 	maxValues := make([]int, CHUNKS)
 
 	var wg sync.WaitGroup
-
 	wg.Add(CHUNKS)
 
 	for i := 0; i < CHUNKS; i++ {
@@ -60,20 +59,18 @@ func maxChunks(data []int) int {
 			end = len(data)
 		}
 
-		go func(chunk []int) {
+		go func(i int, chunk []int) {
 			defer wg.Done()
-
-			localMax := maximum(chunk)
-			maxValues = append(maxValues, localMax)
-		}(data[start:end])
+			maxValues[i] = maximum(chunk)
+		}(i, data[start:end])
 	}
+
 	wg.Wait()
 	return maximum(maxValues)
-
 }
 
 func main() {
-	fmt.Printf("Генерируем %d целых чисел", SIZE)
+	fmt.Printf("Генерируем %d целых чисел\n", SIZE)
 	data := generateRandomElements(SIZE)
 
 	fmt.Println("Ищем максимальное значение в один поток")
