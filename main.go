@@ -15,7 +15,7 @@ const (
 // generateRandomElements generates random elements.
 func generateRandomElements(size int) []int {
 	if size <= 0 {
-		return nil
+		return []int{}
 	}
 
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -28,13 +28,18 @@ func generateRandomElements(size int) []int {
 
 // maximum returns the maximum number of elements.
 func maximum(data []int) int {
+	if data == nil {
+		return 0
+	}
+
 	if len(data) == 0 {
 		return 0
 	}
 	max := data[0]
-	for _, v := range data[1:] {
-		if v > max {
-			max = v
+
+	for i := 1; i < len(data); i++ {
+		if data[i] > max {
+			max = data[i]
 		}
 	}
 	return max
@@ -44,6 +49,10 @@ func maximum(data []int) int {
 func maxChunks(data []int) int {
 	if len(data) == 0 {
 		return 0
+	}
+
+	if len(data) < CHUNKS {
+		return maximum(data)
 	}
 
 	chunkSize := len(data) / CHUNKS
